@@ -1,4 +1,5 @@
 rootProject.name = "multi-module"
-include("message-factory")
-include("message-dashboard")
+include("multi-library")
+include("multi-main")
+include("multi-child")
 

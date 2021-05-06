@@ -3,15 +3,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     val kotlinVersion = "1.5.0"
-    val springVersion = "2.4.1"
-    val springDependencyManagementVersion = "1.0.10.RELEASE"
+    val springVersion = "2.4.5"
+    val springDependencyManagementVersion = "1.0.11.RELEASE"
     idea
     kotlin("jvm") version kotlinVersion apply false
-
     kotlin("plugin.spring") version kotlinVersion apply false
-
     id("org.springframework.boot") version springVersion apply false
-
     id("io.spring.dependency-management") version springDependencyManagementVersion
     // For dependency version upgrades "gradle dependencyUpdates -Drevision=release"
     id("com.github.ben-manes.versions") version "0.36.0"
@@ -22,10 +19,11 @@ allprojects {
     version = "1.0"
 
     repositories {
+        mavenCentral()
         jcenter()
     }
 }
-
+extra["springCloudVersion"] = "2020.0.2"
 subprojects {
     apply(plugin = "org.springframework.boot")
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")
@@ -42,6 +40,8 @@ subprojects {
     configure<DependencyManagementExtension> {
         imports {
             mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+
         }
     }
 
