@@ -31,7 +31,7 @@ subprojects {
         kotlinOptions {
             languageVersion = "1.5"
             apiVersion = "1.5"
-            jvmTarget = "8"
+            jvmTarget = "1.8"
             freeCompilerArgs = listOf("-Xjsr305=strict")
         }
     }
