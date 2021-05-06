@@ -10,6 +10,6 @@ dependencies {
     implementation("org.springframework.boot", "spring-boot-starter-webflux")
     implementation("org.springframework.boot", "spring-boot-starter-actuator")
     developmentOnly("org.springframework.boot", "spring-boot-devtools")
-    implementation("io.github.microutils", "kotlin-logging", "2.0.4")
+    implementation("io.github.microutils", "kotlin-logging-jvm", "2.0.6")
     testImplementation("org.springframework.boot", "spring-boot-starter-test")
 }
