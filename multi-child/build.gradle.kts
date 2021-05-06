@@ -11,3 +11,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation(project(":multi-library"))
 }
+
+tasks.bootJar{
+    enabled = false
+}
+tasks.jar{
+    enabled = true
+}
