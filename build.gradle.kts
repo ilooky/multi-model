@@ -10,14 +10,24 @@ plugins {
     kotlin("plugin.spring") version kotlinVersion apply false
     id("org.springframework.boot") version springVersion apply false
     id("io.spring.dependency-management") version springDependencyManagementVersion
-    // For dependency version upgrades "gradle dependencyUpdates -Drevision=release"
-    id("com.github.ben-manes.versions") version "0.36.0"
 }
 
 allprojects {
-    group = "com.eusunpower.ticket"
+    group = "com.eusunpower"
     version = "1.0"
+    tasks.withType<JavaCompile> {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+    }
 
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+            languageVersion = "1.5"
+            apiVersion = "1.5"
+            jvmTarget = "1.8"
+        }
+    }
     repositories {
         mavenCentral()
         jcenter()
@@ -27,15 +37,6 @@ extra["springCloudVersion"] = "2020.0.2"
 subprojects {
     apply(plugin = "org.springframework.boot")
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            languageVersion = "1.5"
-            apiVersion = "1.5"
-            jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xjsr305=strict")
-        }
-    }
-
     apply(plugin = "io.spring.dependency-management")
     configure<DependencyManagementExtension> {
         imports {
@@ -44,7 +45,6 @@ subprojects {
 
         }
     }
-
     tasks.withType<Test> {
         useJUnitPlatform()
     }
