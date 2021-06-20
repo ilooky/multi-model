@@ -31,11 +31,16 @@ class Controller {
             paramType = "header"
         )]
     )
+    @ApiResponses(
+        value = [
+            ApiResponse(code = 200, message = "successful operation", response = Response::class)
+        ]
+    )
     fun findBook(
         @PathVariable catalogue: String,
         @ApiParam(value = "书名") name: String,
         @ApiParam(name = "author", value = "作者") author: String,
     ) = mono {
-        Response("Hello SpringFox!")
+        Response(arrayListOf(Book(100L, "Java Native", "joy")))
     }
 }

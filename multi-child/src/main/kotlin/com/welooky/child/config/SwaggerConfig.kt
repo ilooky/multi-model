@@ -1,16 +1,22 @@
 package com.welooky.child.config
 
+import com.fasterxml.classmate.TypeResolver
 import io.swagger.annotations.Api
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import springfox.documentation.builders.ApiInfoBuilder
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.builders.ResponseBuilder
+import springfox.documentation.schema.AlternateTypeRules
+import springfox.documentation.schema.WildcardType
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
 import java.time.LocalDate
+import javax.annotation.Resource
 
 /**
  *
@@ -28,6 +34,9 @@ import java.time.LocalDate
  */
 @Configuration
 class SwaggerConfig {
+    @Resource
+    private lateinit var typeResolver: TypeResolver
+
     @Bean
     fun docket(): Docket? {
         return Docket(DocumentationType.OAS_30)
@@ -44,14 +53,23 @@ class SwaggerConfig {
 //            .useDefaultResponseMessages(false)
 //            .globalResponses(
 //                HttpMethod.GET, arrayListOf(
-//                    ResponseBuilder().code("500").description("500 message").build(),
-//                    ResponseBuilder().code("403")
-//                        .description("Forbidden!!!!!").build()
+//                    ResponseBuilder().code("500").description("Internal error!").build(),
+//                    ResponseBuilder().code("403").description("Forbidden!").build()
 //                )
 //            )
             .select().apis(RequestHandlerSelectors.withClassAnnotation(Api::class.java))
             .paths(PathSelectors.any())
             .build()
+            .alternateTypeRules(
+                AlternateTypeRules.newRule(
+                    typeResolver.resolve(Mono::class.java, WildcardType::class.java),
+                    typeResolver.resolve(WildcardType::class.java)
+                ),
+                AlternateTypeRules.newRule(
+                    typeResolver.resolve(Flux::class.java, WildcardType::class.java),
+                    typeResolver.resolve(WildcardType::class.java)
+                )
+            )
             .directModelSubstitute(LocalDate::class.java, String::class.java)
     }
 }
