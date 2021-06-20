@@ -1,4 +1,4 @@
-package com.welooky.child
+package com.welooky.subject
 
 class MultiChildApplicationTests {
     fun contextLoads() {

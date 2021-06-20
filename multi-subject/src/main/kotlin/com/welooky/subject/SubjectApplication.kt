@@ -1,4 +1,4 @@
-package com.welooky.child
+package com.welooky.subject
 
 import com.welooky.library.Demo
 import org.springframework.boot.autoconfigure.SpringBootApplication

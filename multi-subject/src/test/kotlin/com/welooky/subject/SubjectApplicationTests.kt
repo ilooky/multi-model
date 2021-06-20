@@ -1,4 +1,4 @@
-package com.welooky.child
+package com.welooky.subject
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
